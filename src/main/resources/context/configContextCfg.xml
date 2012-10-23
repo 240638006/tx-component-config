@@ -32,6 +32,6 @@
 	</configResources>
 	
 	<configLocations>
-		<configLocation>classpath:configcontext/*config.xml</configLocation>
+		<configLocation>classpath:configcontext/*_config.xml</configLocation>
 	</configLocations>
 </configContext>

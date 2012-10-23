@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.FactoryBean;
 
 import com.tx.component.config.model.ConfigProperty;
 import com.tx.component.config.setting.ConfigPropertySetting;
@@ -23,21 +25,59 @@ import com.tx.component.config.setting.ConfigPropertySetting;
  * @see  [相关类/方法]
  * @since  [产品/模块版本]
  */
-public class ConfigPropertiesContext {
+public class ConfigPropertiesContext implements FactoryBean<ConfigPropertiesContext>,BeanNameAware{
     
-    private static final ConfigContextCfg contextCfg = new ConfigPropertiesContext.ConfigContextCfg();
+    private static Map<String, ConfigPropertiesContext> contextMap = new HashMap<String, ConfigPropertiesContext>();
     
-    /**
-     * 配置容器单例模式
-     */
-    private static final ConfigPropertiesContext context = new ConfigPropertiesContext();
+    /** 配置属性容器的bean名 */
+    private String beanName;
     
-    private static final Map<String, ConfigProperty> configPropertyMap = new HashMap<String, ConfigProperty>();
+    /** 配置容器的配置  */
+    private final ConfigContextCfg contextCfg = new ConfigPropertiesContext.ConfigContextCfg();
+    
+    /** key与配置属性的映射关系*/
+    private final Map<String, ConfigProperty> configPropertyMap = new HashMap<String, ConfigProperty>();
     
     /** <默认构造函数> */
-    private ConfigPropertiesContext() {
-        
+    private ConfigPropertiesContext() {}
+    
+    /**
+     * @param name
+     */
+    @Override
+    public void setBeanName(String name) {
+        this.beanName = name;
     }
+
+    /**
+     * @return
+     * @throws Exception
+     */
+    public ConfigPropertiesContext getObject() throws Exception {
+        if(contextMap.containsKey(this.beanName)){
+            return contextMap.get(this.beanName);
+        }
+        ConfigPropertiesContext newContext = new ConfigPropertiesContext();
+        contextMap.put(this.beanName, newContext);
+        return newContext;
+    }
+
+    /**
+     * @return
+     */
+    public Class<?> getObjectType() {
+        return ConfigPropertiesContext.class;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean isSingleton() {
+        return false;
+    }
+
+    
     
     /**
       * <配置容器配置>
@@ -99,11 +139,9 @@ public class ConfigPropertiesContext {
         
         /** 配置属值 */
         private String value = "";
-        
         /**
          * @return
          */
-        @Override
         public String getValue() {
             if(contextCfg.isDevelop || !StringUtils.isEmpty(getDevelopValue())){
                 return getDevelopValue();

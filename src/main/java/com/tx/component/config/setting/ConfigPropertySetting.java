@@ -9,7 +9,10 @@ package com.tx.component.config.setting;
 import java.util.List;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import com.tx.component.config.model.ConfigProperty;
 import com.tx.core.tree.model.TreeAble;
 
 
@@ -34,27 +37,35 @@ public class ConfigPropertySetting implements TreeAble<List<ConfigPropertySettin
     private List<ConfigPropertySetting> childs;
     
     /** 配置属性所属资源 */
+    @XStreamAsAttribute
     private String resource;
     
     /** 配置资源名 */
+    @XStreamAsAttribute
     private String name;
     
     /** 配置类型  */
+    @XStreamAsAttribute
     private String type = TYPE_NODE;
     
     /** 父节点key */
+    @XStreamOmitField
     private String parentKey;
     
     /** 关键字 */
+    @XStreamAsAttribute
     private String key;
     
     /** 是否可编辑  */
-    private boolean isEditAble = true;
+    @XStreamAsAttribute
+    private boolean isEditAble = false;
     
     /** 是否可见 */
+    @XStreamAsAttribute
     private boolean isVisible = true;
     
     /** 是否为动态属性：即修改后是否立即生效,默认为false  */
+    @XStreamAsAttribute
     private boolean isDynamic = false;
     
     /** 配置资源描述信息 */
@@ -65,6 +76,9 @@ public class ConfigPropertySetting implements TreeAble<List<ConfigPropertySettin
     
     /** 默认值 */
     private String defaultValue = "";
+    
+    /** 状态 0有效，1无效 */
+    private String status = ConfigProperty.STATUS_VALID;
     
     /**
      * @return 返回 id
@@ -141,6 +155,9 @@ public class ConfigPropertySetting implements TreeAble<List<ConfigPropertySettin
      * @return 返回 key
      */
     public String getKey() {
+        if(ConfigPropertySetting.TYPE_LEAF.equals(this.type)){
+            return String.valueOf(this.name.hashCode());
+        }
         return key;
     }
 
@@ -155,6 +172,9 @@ public class ConfigPropertySetting implements TreeAble<List<ConfigPropertySettin
      * @return 返回 isEditAble
      */
     public boolean isEditAble() {
+        if(ConfigPropertySetting.TYPE_LEAF.equals(this.type)){
+            return false;
+        }
         return isEditAble;
     }
 
@@ -225,6 +245,12 @@ public class ConfigPropertySetting implements TreeAble<List<ConfigPropertySettin
      * @return 返回 childs
      */
     public List<ConfigPropertySetting> getChilds() {
+        if(this.childs != null && this.childs.size() > 0){
+            String parentKey = this.getKey();
+            for(ConfigPropertySetting proSettingTemp : this.childs){
+                proSettingTemp.setParentKey(parentKey);
+            }
+        }
         return childs;
     }
 
@@ -239,6 +265,9 @@ public class ConfigPropertySetting implements TreeAble<List<ConfigPropertySettin
      * @return 返回 isDynamic
      */
     public boolean isDynamic() {
+        if(ConfigPropertySetting.TYPE_LEAF.equals(this.type)){
+            return false;
+        }
         return isDynamic;
     }
 
@@ -248,6 +277,20 @@ public class ConfigPropertySetting implements TreeAble<List<ConfigPropertySettin
     public void setDynamic(boolean isDynamic) {
         this.isDynamic = isDynamic;
     }
-    
-    
+
+
+    /**
+     * @return 返回 status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+
+    /**
+     * @param 对status进行赋值
+     */
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

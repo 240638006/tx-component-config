@@ -8,9 +8,8 @@
  */
 package com.tx.component.config.context;
 
+import org.quartz.Scheduler;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
-
-import com.tx.component.config.util.ConfigContextPropertiesPersister;
 
 /**
  * <配置容器>
@@ -23,8 +22,19 @@ import com.tx.component.config.util.ConfigContextPropertiesPersister;
  */
 public class ConfigContext extends PropertyPlaceholderConfigurer {
     
-    /** 配置属性容器 */
-    private ConfigContext() {
-        setPropertiesPersister(new ConfigContextPropertiesPersister());
+    private Scheduler scheduler;
+
+    /**
+     * @return 返回 scheduler
+     */
+    public Scheduler getScheduler() {
+        return scheduler;
+    }
+
+    /**
+     * @param 对scheduler进行赋值
+     */
+    public void setScheduler(Scheduler scheduler) {
+        this.scheduler = scheduler;
     }
 }

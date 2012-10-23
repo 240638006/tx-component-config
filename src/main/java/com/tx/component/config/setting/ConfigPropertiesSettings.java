@@ -6,9 +6,14 @@
  */
 package com.tx.component.config.setting;
 
+import java.util.List;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+
 
  /**
-  * <功能简述>
+  * <对应各个配置文件>
   * <功能详细描述>
   * 
   * @author  PengQingyang
@@ -16,11 +21,23 @@ package com.tx.component.config.setting;
   * @see  [相关类/方法]
   * @since  [产品/模块版本]
   */
+@XStreamAlias("configProperties")
 public class ConfigPropertiesSettings {
     
-    /** <默认构造函数> */
-    public ConfigPropertiesSettings() {
-        // TODO Auto-generated constructor stub
+    @XStreamImplicit(itemFieldName="property")
+    private List<ConfigPropertySetting> configPropertyList;
+
+    /**
+     * @return 返回 configPropertyList
+     */
+    public List<ConfigPropertySetting> getConfigPropertyList() {
+        return configPropertyList;
     }
-    
+
+    /**
+     * @param 对configPropertyList进行赋值
+     */
+    public void setConfigPropertyList(List<ConfigPropertySetting> configPropertyList) {
+        this.configPropertyList = configPropertyList;
+    }
 }

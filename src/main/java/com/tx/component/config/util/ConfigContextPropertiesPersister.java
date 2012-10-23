@@ -12,8 +12,6 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.sql.DataSource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -24,6 +22,7 @@ import org.springframework.util.DefaultPropertiesPersister;
 import com.thoughtworks.xstream.XStream;
 import com.tx.component.config.setting.ConfigContextSetting;
 import com.tx.component.config.setting.ConfigLocationSetting;
+import com.tx.component.config.setting.ConfigPropertiesSettings;
 import com.tx.component.config.setting.ConfigResourceSetting;
 import com.tx.core.util.XstreamUtils;
 
@@ -43,6 +42,8 @@ public class ConfigContextPropertiesPersister extends
     
     private static XStream configContextParse = XstreamUtils.getXstream(ConfigContextSetting.class);
     
+    private static XStream configPropertiesParse = XstreamUtils.getXstream(ConfigPropertiesSettings.class);
+    
     private ResourcePatternResolver resourcesLoader = new PathMatchingResourcePatternResolver();
     
     /**
@@ -57,6 +58,7 @@ public class ConfigContextPropertiesPersister extends
         
         //检查参数合法性
         if (is == null || props == null) {
+            logger.info("loadProperties from {} fail. the configContextCft is not exist.");
             return;
         }
         
@@ -64,6 +66,7 @@ public class ConfigContextPropertiesPersister extends
         ConfigContextSetting ccs = (ConfigContextSetting) configContextParse.fromXML(is);
         
         if (ccs == null) {
+            logger.info("loadProperties from {} fail. the configContextCft is empty.");
             return;
         }
         

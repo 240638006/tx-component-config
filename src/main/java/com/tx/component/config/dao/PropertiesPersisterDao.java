@@ -10,10 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.tx.component.config.model.ConfigProperty;
+import com.tx.component.config.setting.ConfigPropertiesSettings;
 
 
  /**
-  * <功能简述>
+  * <属性持久层接口>
   * <功能详细描述>
   * 
   * @author  PengQingyang
@@ -23,11 +24,52 @@ import com.tx.component.config.model.ConfigProperty;
   */
 public interface PropertiesPersisterDao {
     
-    public List<Map<String, String>> queryPropertiesMapList();
+    /**
+      *<根据配置初始化属性持久及dao>
+      *<功能详细描述>
+      * @param configContextCfg [参数说明]
+      * 
+      * @return void [返回类型说明]
+      * @exception throws [异常类型] [异常说明]
+      * @see [类、类#方法、类#成员]
+     */
+    public void init(ConfigPropertiesSettings configContextCfg);
     
-    public void insertProperty(ConfigProperty configProperty);
+    /**
+      *<查询属性maplist>
+      *<功能详细描述>
+      * @param resourceId
+      * @return [参数说明]
+      * 
+      * @return List<Map<String,String>> [返回类型说明]
+      * @exception throws [异常类型] [异常说明]
+      * @see [类、类#方法、类#成员]
+     */
+    public List<Map<String, String>> queryPropertiesMapList(String resourceId);
     
-    public void updateProperty(ConfigProperty configProperty);
+    /**
+      *<插入属性>
+      *<功能详细描述>
+      * @param resourceId
+      * @param configProperty [参数说明]
+      * 
+      * @return void [返回类型说明]
+      * @exception throws [异常类型] [异常说明]
+      * @see [类、类#方法、类#成员]
+     */
+    public void insertProperty(String resourceId,ConfigProperty configProperty);
     
-    public void deleteProperty(ConfigProperty configProperty);
+    /**
+      *<更新属性>
+      *<功能详细描述>
+      * @param resourceId
+      * @param configProperty [参数说明]
+      * 
+      * @return void [返回类型说明]
+      * @exception throws [异常类型] [异常说明]
+      * @see [类、类#方法、类#成员]
+     */
+    public void updateProperty(String resourceId,ConfigProperty configProperty);
+    
+    public void deleteProperty(String resourceId,ConfigProperty configProperty);
 }

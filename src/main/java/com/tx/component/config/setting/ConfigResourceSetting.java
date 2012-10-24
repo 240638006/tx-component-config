@@ -21,11 +21,13 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("configResource")
 public class ConfigResourceSetting {
     
+    public static final String TYPE_DATABASE = "database";
+    
     /** 配置资源唯一ID */
     private String id;
     
     /** 配置资源类型 ：支持database...待扩展 */
-    private String type = "database";
+    private String type = TYPE_DATABASE;
     
     /** 配置资源对应jndiName */
     private String jndiName;

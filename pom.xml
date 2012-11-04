@@ -15,6 +15,24 @@
 	<url>http://maven.apache.org</url>
 
 	<dependencies>
+		<!-- commons -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-vfs2</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+
 		<dependency>
 			<groupId>com.tx</groupId>
 			<artifactId>tx-core</artifactId>

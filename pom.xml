@@ -25,12 +25,6 @@
 			<version>${tx_jar_version}</version>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>com.tx</groupId>
-			<artifactId>tx-commons</artifactId>
-			<version>${tx_jar_version}</version>
-			<optional>true</optional>
-		</dependency>
 
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
